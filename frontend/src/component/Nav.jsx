@@ -56,6 +56,7 @@ export default function Navbar() {
     return [
       { label: "Home", path: "/" },
       { label: "Shop", path: "/products" },
+      { label: "Cart", path: "/cart" },
       { label: "Favourite", path: "/Favourite" },
       { label: "My Orders", path: "/orders" },
       { label: "Account", path: "/account" },
