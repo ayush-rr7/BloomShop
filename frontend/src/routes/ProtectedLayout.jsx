@@ -12,9 +12,9 @@ const ProtectedLayout = () => {
   }
 
   // // Only customers can access customer protected routes
-  // if (user?.role !== "customer") {
-  //   return <Navigate to="/admin" replace />;
-  // }
+  if (user?.role !== "customer") {
+    return <Navigate to="/admin" replace />;
+  }
 
   return <Outlet />;
 };

@@ -1,290 +1,606 @@
-# 💍 Vivah E-Connect
+# 🌸 BloomShop
 
-A modern matrimonial matching platform built with **MERN Stack** that connects individuals based on intelligent compatibility matching and real-time messaging.
-##  Features
+**BloomShop** is a modern full-stack flower business platform built with the **MERN stack**. It provides a complete digital experience for customers to explore flower products, manage their cart, place orders, and make payments, while also providing a dedicated workflow for shop owners to manage their products and orders.
 
-- 👤 **User Authentication** - Email signup, OTP verification, JWT-based sessions
-- 👥 **Multiple Profiles** - Create and manage multiple profiles per account
-- 💕 **Smart Matching** - AI-powered compatibility algorithm (0-100% score)
-- 🔗 **Connection Requests** - Send, accept, or reject connection requests
-- 💬 **Real-time Chat** - Socket.IO powered instant messaging
-- 📸 **Image Upload** - Cloudinary integration for profile pictures
-- 🔒 **Secure** - Password hashing, input validation, rate limiting
-- 📱 **Responsive Design** - Mobile-friendly UI with Tailwind CSS
+The project combines **e-commerce functionality with flower-shop business management**, creating a complete platform for online flower ordering and shop operations.
 
 ---
-## Architecture
 
+## ✨ Features
+
+### 🛍️ Customer Features
+
+* 👤 User registration and login
+* 🔐 Secure authentication
+* 🌹 Browse available flower products
+* 🔎 View detailed product information
+* 🛒 Add products to cart
+* ➕ Increase or decrease product quantity
+* 🗑️ Remove products from cart
+* 💰 Automatic cart total calculation
+* 📦 Checkout and order placement
+* 💳 Online payment integration with Razorpay
+* 📍 Enter delivery information during checkout
+* 📋 View order details
+* 📱 Responsive interface for desktop and mobile devices
+
+### 🏪 Shop Owner Features
+
+* 🔐 Owner authentication
+* 📊 Owner/shop dashboard
+* 🌸 Add new products
+* ✏️ Update product information
+* 🗑️ Remove products
+* 🖼️ Upload and manage product images
+* 📦 Manage customer orders
+* 🔄 Update order status
+* 📋 View order information
+
+### ☁️ Media Management
+
+* Product image uploads
+* Cloudinary-based image storage
+* Multer-based file handling
+* Optimized image delivery through Cloudinary
+
+### 🔒 Security
+
+* Password hashing using bcrypt
+* JWT-based authentication
+* Protected API routes
+* Authentication middleware
+* Environment variables for sensitive credentials
+* Input validation
+* CORS configuration
+* Secure payment verification
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                         ┌──────────────────────────┐
+                         │      React Frontend      │
+                         │                          │
+                         │  Home                    │
+                         │  Products                │
+                         │  Product Details         │
+                         │  Cart                    │
+                         │  Checkout                │
+                         │  Orders                  │
+                         │  Owner Dashboard         │
+                         └────────────┬─────────────┘
+                                      │
+                              REST API / HTTP
+                                      │
+                         ┌────────────▼─────────────┐
+                         │     Express Backend      │
+                         │                          │
+                         │ Authentication           │
+                         │ Products                 │
+                         │ Cart                     │
+                         │ Orders                   │
+                         │ Payments                 │
+                         │ Owner Management         │
+                         └───────┬─────────┬────────┘
+                                 │         │
+                    ┌────────────┘         └─────────────┐
+                    ▼                                    ▼
+             ┌──────────────┐                     ┌──────────────┐
+             │   MongoDB    │                     │  Cloudinary  │
+             │              │                     │              │
+             │ Users        │                     │ Product      │
+             │ Products     │                     │ Images       │
+             │ Carts        │                     │              │
+             │ Orders       │                     └──────────────┘
+             └──────────────┘
+                                 │
+                                 ▼
+                         ┌──────────────────┐
+                         │     Razorpay     │
+                         │                  │
+                         │ Online Payments  │
+                         └──────────────────┘
 ```
-┌─────────────────────────────────────────┐
-│        React Frontend (Vite)            │
-│  - Dashboard, Matches, Chat, Profiles  │
-└────────────┬────────────────────────────┘
-             │
-      ┌──────┴──────┐
-      │             │
-   HTTP         WebSocket
-   REST          Socket.IO
-      │             │
-┌─────▼─────────────▼──────────────────────┐
-│        Express.js Backend                │
-│  - Auth, Matching, Messages, Connections│
-└────────────┬────────────────────────────┘
-             │
-      ┌──────┴──────┐
-      │             │
-  MongoDB      Cloudinary
-  Database     Image Storage
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+| Technology       | Purpose                             |
+| ---------------- | ----------------------------------- |
+| React            | User interface                      |
+| Vite             | Frontend development and build tool |
+| React Router DOM | Client-side routing                 |
+| Tailwind CSS     | Responsive UI styling               |
+| Axios            | API communication                   |
+| Lucide React     | UI icons                            |
+
+## Backend
+
+| Technology | Purpose              |
+| ---------- | -------------------- |
+| Node.js    | Server runtime       |
+| Express.js | REST API development |
+| MongoDB    | Database             |
+| Mongoose   | MongoDB ODM          |
+| JWT        | Authentication       |
+| bcrypt     | Password hashing     |
+| Multer     | File upload handling |
+| Cloudinary | Image storage        |
+| Razorpay   | Payment processing   |
+
+---
+
+# 🛒 Core Shopping Workflow
+
+BloomShop implements a complete online ordering workflow:
+
+```text
+        Browse Products
+              │
+              ▼
+       Product Details
+              │
+              ▼
+       Select Quantity
+              │
+              ▼
+          Add to Cart
+              │
+              ▼
+        Review Cart
+              │
+              ▼
+           Checkout
+              │
+              ▼
+      Enter Delivery Details
+              │
+              ▼
+       Select Payment Method
+              │
+              ▼
+       Razorpay Payment
+              │
+              ▼
+        Create Order
+              │
+              ▼
+       Order Confirmation
 ```
 
 ---
 
-## Tech Stack
+# 🌸 Product Management
 
-### Backend
-- **Runtime:** Node.js (Latest LTS)
-- **Framework:** Express.js 5.1.0
-- **Database:** MongoDB 8.17.1 + Mongoose ODM
-- **Authentication:** JWT (9.0.3) + bcryptjs (3.0.3)
-- **Real-time:** Socket.IO 4.8.3
-- **File Upload:** Cloudinary + Multer
-- **Validation:** express-validator 7.3.1
-- **Rate Limiting:** express-rate-limit 8.3.1
+Products can contain information such as:
 
-### Frontend
-- **Library:** React 19.2.0
-- **Build Tool:** Vite 7.2.4
-- **Routing:** React Router DOM 7.13.0
-- **HTTP Client:** Axios 1.13.2
-- **Styling:** Tailwind CSS 4.1.18
-- **Real-time:** Socket.IO Client 4.8.3
+* Product name
+* Description
+* Price
+* Category
+* Available quantity
+* Product image
+* Additional product information
+
+The owner can manage the product catalogue through the shop management interface.
 
 ---
 
-## 🚀 Quick Start
+# 📦 Order Management
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB Atlas account
-- Cloudinary account (for image storage)
-- Nodemailer/Resend credentials (for emails)
+The order system connects the customer shopping workflow with the shop owner workflow.
 
-### Backend Setup
+### Customer
+
+```text
+Cart
+  ↓
+Checkout
+  ↓
+Delivery Details
+  ↓
+Payment
+  ↓
+Order Created
+  ↓
+Order Tracking
+```
+
+### Shop Owner
+
+```text
+New Order
+    ↓
+Review Order
+    ↓
+Process Order
+    ↓
+Update Status
+    ↓
+Complete Delivery
+```
+
+---
+
+# 💳 Payment Integration
+
+BloomShop integrates **Razorpay** to support online payments.
+
+The payment workflow includes:
+
+1. Customer proceeds to checkout.
+2. Order and delivery information are submitted.
+3. Razorpay payment flow is initiated.
+4. Customer completes the payment.
+5. Payment information is verified by the backend.
+6. The order is created/updated according to the payment result.
+
+Sensitive Razorpay credentials are stored through environment variables rather than being hard-coded in the application.
+
+---
+
+# 🗄️ Database Structure
+
+MongoDB is used as the primary database.
+
+### Main Collections
+
+```text
+Users
+ │
+ ├── Account information
+ ├── Authentication information
+ └── User role
+
+Products
+ │
+ ├── Product information
+ ├── Price
+ ├── Category
+ └── Image information
+
+Carts
+ │
+ ├── User
+ ├── Products
+ ├── Quantities
+ └── Cart totals
+
+Orders
+ │
+ ├── Customer information
+ ├── Products
+ ├── Quantity
+ ├── Delivery details
+ ├── Payment information
+ └── Order status
+```
+
+---
+
+# 📁 Project Structure
+
+```text
+BloomShop/
+│
+├── backend/
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── productController.js
+│   │   ├── cartController.js
+│   │   └── orderController.js
+│   │
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Product.js
+│   │   ├── Cart.js
+│   │   └── Order.js
+│   │
+│   ├── routes/
+│   │   ├── authRoutes.js
+│   │   ├── productRoutes.js
+│   │   ├── cartRoutes.js
+│   │   └── orderRoutes.js
+│   │
+│   ├── middleware/
+│   │   └── authentication.js
+│   │
+│   ├── config/
+│   │   ├── db.js
+│   │   ├── cloudinary.js
+│   │   └── razorpay.js
+│   │
+│   ├── server.js
+│   └── package.json
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   ├── context/
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   │
+│   ├── public/
+│   ├── package.json
+│   └── vite.config.js
+│
+└── README.md
+```
+
+> The exact folder names can be adjusted to match the current repository structure.
+
+---
+
+# 🔌 API Overview
+
+## Authentication
+
+| Method | Endpoint       | Description            |
+| ------ | -------------- | ---------------------- |
+| POST   | `/auth/signup` | Register a user        |
+| POST   | `/auth/login`  | Login user             |
+| POST   | `/auth/logout` | Logout user            |
+| GET    | `/auth/me`     | Get authenticated user |
+
+## Products
+
+| Method | Endpoint            | Description         |
+| ------ | ------------------- | ------------------- |
+| GET    | `/api/products`     | Get all products    |
+| GET    | `/api/products/:id` | Get product details |
+| POST   | `/api/products`     | Create a product    |
+| PUT    | `/api/products/:id` | Update a product    |
+| DELETE | `/api/products/:id` | Delete a product    |
+
+## Cart
+
+| Method | Endpoint        | Description             |
+| ------ | --------------- | ----------------------- |
+| GET    | `/api/cart`     | Get current user's cart |
+| POST   | `/api/cart`     | Add item to cart        |
+| PUT    | `/api/cart/:id` | Update cart item        |
+| DELETE | `/api/cart/:id` | Remove cart item        |
+
+## Orders
+
+| Method | Endpoint          | Description         |
+| ------ | ----------------- | ------------------- |
+| POST   | `/api/orders`     | Create an order     |
+| GET    | `/api/orders`     | Get user orders     |
+| GET    | `/api/orders/:id` | Get order details   |
+| PUT    | `/api/orders/:id` | Update order status |
+
+> Update the endpoint names above if your current backend uses different route paths.
+
+---
+
+# 🔐 Security
+
+BloomShop follows common web application security practices:
+
+* Password hashing with bcrypt
+* JWT-based authentication
+* Protected routes and APIs
+* Authentication middleware
+* Environment-based secret management
+* CORS configuration
+* Server-side validation
+* Secure payment processing
+* Cloudinary credentials stored in environment variables
+* Razorpay credentials stored in environment variables
+
+---
+
+# ⚙️ Environment Variables
+
+Create a `.env` file inside the backend directory.
+
+```env
+NODE_ENV=development
+PORT=3002
+
+MONGODB_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_jwt_secret
+
+CLOUDINARY_NAME=your_cloudinary_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+RAZORPAY_KEY_ID=your_razorpay_key
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+
+FRONTEND_URL=http://localhost:5173
+```
+
+For the frontend:
+
+```env
+VITE_API_URL=http://localhost:3002
+VITE_RAZORPAY_KEY_ID=your_razorpay_key
+```
+
+**Never commit `.env` files or secret credentials to GitHub.**
+
+---
+
+# 🚀 Getting Started
+
+## Prerequisites
+
+Make sure you have:
+
+* Node.js 16+
+* MongoDB / MongoDB Atlas
+* Cloudinary account
+* Razorpay account for payment functionality
+
+---
+
+## 1. Clone the Repository
+
+```bash
+git clone <your-repository-url>
+cd BloomShop
+```
+
+---
+
+## 2. Install Backend Dependencies
 
 ```bash
 cd backend
 npm install
-
-# Create .env file
-cp .env.example .env
-
-# Configure your environment variables
-# MONGODB_URI=your_mongodb_url
-# JWT_SECRET=your_secret_key
-# CLOUDINARY_API_KEY=your_key
-# FRONTEND_URL=http://localhost:5173
-
-npm start
-# Server runs on http://localhost:3002
 ```
 
-### Frontend Setup
+Configure the backend `.env` file and start the server:
+
+```bash
+npm start
+```
+
+---
+
+## 3. Install Frontend Dependencies
+
+Open another terminal:
 
 ```bash
 cd frontend
 npm install
+```
 
+Configure `.env.local` and run:
+
+```bash
 npm run dev
-# Frontend runs on http://localhost:5173
+```
+
+The frontend will be available at:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
-## 📁 Project Structure
+# ☁️ Deployment
 
-```
-vivah-econnect/
-├── backend/
-│   ├── src/
-│   │   ├── controller/          # Business logic
-│   │   ├── models/              # Mongoose schemas
-│   │   ├── routes/              # API endpoints
-│   │   ├── middleware/          # JWT, validation
-│   │   ├── services/            # Matching algorithm
-│   │   ├── sockets/             # Real-time handlers
-│   │   ├── config/              # Cloudinary, email
-│   │   └── utils/               # Helpers
-│   ├── server.js                # Entry point
-│   └── package.json
-│
-└── frontend/
-    ├── src/
-    │   ├── pages/               # Route pages
-    │   ├── components/          # Reusable components
-    │   ├── services/            # API calls
-    │   ├── context/             # Auth context
-    │   ├── App.jsx
-    │   └── main.jsx
-    └── package.json
-```
+BloomShop can be deployed using separate services for the frontend, backend, database, image storage, and payment processing.
+
+| Service       | Purpose                   |
+| ------------- | ------------------------- |
+| Vercel        | Frontend deployment       |
+| Render        | Backend deployment        |
+| MongoDB Atlas | Cloud database            |
+| Cloudinary    | Product image storage     |
+| Razorpay      | Online payment processing |
+
+Production environment variables should be configured through the respective deployment platforms.
 
 ---
 
-## 🔌 API Endpoints
+# 📱 Responsive Design
 
-### Authentication
-- `POST /auth/signup` - Register new user
-- `POST /auth/sendOtp` - Send verification OTP
-- `POST /auth/verifyOtp` - Verify OTP
-- `POST /auth/login` - Login user
-- `GET /auth/me` - Get current user (Protected)
-- `POST /auth/logout` - Logout user
+The frontend is designed using Tailwind CSS with responsive layouts for:
 
-### Matches
-- `GET /api/matches` - Get compatible matches (Protected)
-- `GET /api/matches/:id` - Get match details (Protected)
+* Desktop
+* Laptop
+* Tablet
+* Mobile
 
-### Connections
-- `POST /api/connections` - Send connection request (Protected)
-- `GET /api/connections/sent` - Get sent requests (Protected)
-- `GET /api/connections/received` - Get received requests (Protected)
-- `PUT /api/connections/:id/accept` - Accept request (Protected)
-- `PUT /api/connections/:id/reject` - Reject request (Protected)
-
-### Messages
-- `GET /api/messages/:connectionId` - Get chat history (Protected)
-- `POST /api/messages` - Send message (Protected)
-
-
-##  Security Features
-
-✅ Password hashing with bcryptjs (10 salt rounds)  
-✅ JWT authentication with HttpOnly cookies  
-✅ OTP verification (5-minute expiry)  
-✅ Input validation on all endpoints  
-✅ Rate limiting to prevent abuse  
-✅ CORS configuration for frontend origin  
-✅ MongoDB field selection (prevent data leakage)  
-✅ Socket.IO authentication verification  
+The shopping workflow remains accessible across different screen sizes.
 
 ---
 
-## 📊 Database Schema
+# 📈 Future Enhancements
 
-### Collections
-- **Users** - Authentication credentials
-- **Profiles** - User profile details (age, height, education, etc.)
-- **Connections** - Connection requests between users
-- **Messages** - Chat messages and conversation history
-- **OTPs** - Time-limited verification codes
-- **Preferences** - User's partner matching preferences
+Planned improvements include:
 
----
-
-## Deployment
-
-### Frontend Deployment
-- **Vercel** – Used for deploying the React frontend application and providing fast global access.
-
-### Backend Deployment
-- **Render.com** – Used for deploying the Node.js and Express.js backend server with GitHub integration and automatic deployment.
-
-### Database Hosting
-- **MongoDB Atlas** – Used as the cloud database service for storing users, profiles, messages, and connection requests securely.
-
-### Image Storage
-- **Cloudinary** – Used for uploading, storing, and managing profile images efficiently.
+* 📊 Advanced owner dashboard and analytics
+* 🔔 Customer order notifications
+* ❤️ Wishlist and favourites
+* 🔎 Advanced product filtering and search
+* 🎁 Custom bouquet/event-based packages
+* 📅 Flower delivery scheduling
+* 📍 Delivery-area management
+* 🧾 Invoice generation
+* ⭐ Product reviews and ratings
+* 📦 Improved inventory management
+* 📈 Sales and order analytics
+* 👥 Customer management for shop owners
 
 ---
 
----
+# 🎯 Project Status
 
-## Matching Algorithm
+🟢 **Active Development**
 
-The compatibility matching uses a scoring system:
+BloomShop currently focuses on building a complete digital workflow for a flower business, covering both sides of the platform:
 
-1. **Hard Filters:**
-   - Opposite gender
-   - User preferences (religion, etc.)
-
-2. **Soft Filters & Scoring:**
-   - Age compatibility
-   - Height compatibility
-   - Education level match
-   - Income range compatibility
-   - Location preference
-
-3. **Final Score:** 0-100% compatibility rating
-
----
-
-## 📈 Future Enhancements
-
-- 🎥 Video calling integration (Agora/Twilio)
-- 🤖 ML-based recommendation engine
-- 💳 Payment integration (Stripe/Razorpay)
-- 📱 React Native mobile app
-- 🔍 Elasticsearch for advanced search
-- ❤️ Likes, favorites, and activity feed
-- ⭐ Admin dashboard for moderation
-- 📊 User analytics and insights
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
-## 📝 Environment Variables
-
-Create `.env` files in both frontend and backend directories:
-
-**Backend (.env):**
-```
-NODE_ENV=development
-PORT=3002
-MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/vivah
-JWT_SECRET=your_super_secret_key_here
-CLOUDINARY_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASSWORD=your_app_password
-FRONTEND_URL=http://localhost:5173
-```
-
-**Frontend (.env.local):**
-```
-VITE_API_URL=http://localhost:3002
+```text
+Customer Side
+    │
+    ├── Browse Products
+    ├── Product Details
+    ├── Cart
+    ├── Checkout
+    ├── Payment
+    └── Orders
+         
+              ↕
+         
+Shop Side
+    │
+    ├── Product Management
+    ├── Order Management
+    └── Shop Operations
 ```
 
 ---
 
+# 🤝 Contributing
 
-## 🙏 Acknowledgments
+Contributions and suggestions are welcome.
 
-- MERN stack community
-- Mongoose documentation
-- Socket.IO real-time capabilities
-- Cloudinary image management
-- Tailwind CSS framework
+```bash
+# Create a feature branch
+git checkout -b feature/your-feature
+
+# Add changes
+git add .
+
+# Commit changes
+git commit -m "Add your feature"
+
+# Push branch
+git push origin feature/your-feature
+```
+
+Then open a Pull Request.
 
 ---
 
-## 📞 Support
+# 🙏 Acknowledgments
 
-For support, email support@vivaheconnect.com or open an issue on GitHub.
+* React
+* Node.js
+* Express.js
+* MongoDB
+* Mongoose
+* Tailwind CSS
+* Cloudinary
+* Razorpay
+* Vite
 
 ---
 
-## 🎯 Status
+## 📄 License
 
-🟢 **Active Development** - V1.0 Released
+This project is developed as a **college project and full-stack web application** for a flower-shop business platform.
