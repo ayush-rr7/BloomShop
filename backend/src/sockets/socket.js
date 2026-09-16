@@ -8,7 +8,7 @@ const initSocket = (server) => {
     cors: {
      origin: [
       "http://localhost:5173",
-      "https://bloomShop.vercel.app"
+      "https://bloomshops.vercel.app"
     ],
     methods: ["GET", "POST"],
     credentials: true

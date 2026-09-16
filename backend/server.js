@@ -8,7 +8,7 @@ const server = http.createServer(app);
 initSocket(server);
 
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 10000;
 server.listen(PORT,() =>{
 console.log(`server is running at http://localhost:${PORT}`);
 })
