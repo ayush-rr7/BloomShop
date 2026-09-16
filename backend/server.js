@@ -9,6 +9,6 @@ initSocket(server);
 
 
 const PORT = process.env.PORT || 10000;
-server.listen(PORT,() =>{
-console.log(`server is running at http://localhost:${PORT}`);
-})
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
