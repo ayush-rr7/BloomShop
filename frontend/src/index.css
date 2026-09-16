@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+
+.required-field{
+  @apply text-red-500;
+}
+.input-field {
+  @apply 
+   w-full px-4 py-2.5   border border-gray-300  rounded-lg  text-sm  outline-none  transition-all duration-200   focus:ring-2 focus:ring-pink-400 hover:border-gray-300  shadow-sm
+}
+.input-field2 {
+  @apply w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-400
+}
+.primary-btn {
+  @apply w-xs bg-pink-600 hover:bg-pink-700 text-white font-semibold py-3 rounded-lg shadow transition duration-300  cursor-pointer mt-3;
+}
+
+
