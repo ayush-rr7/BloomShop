@@ -17,6 +17,7 @@ import favouriteRouter from './routes/favourite.routes.js';
 import cartRouter from './routes/cart.routes.js';
 import paymentRouter from "./routes/payment.routes.js";
 import orderRoutes from "./routes/order.routes.js";
+import dashboardRouter from "./routes/dashboard.routes.js";
 
 
 const app= express();
@@ -44,8 +45,10 @@ app.use(cookieParser());  //for parsing jwt
 app.use('/auth',authRouter);
 //protected route
 app.use('/api',authenticateJWT, productRouter);
-// app.use('/api', userRouter);
 app.use('/favourite',authenticateJWT, favouriteRouter);
+
+app.use("/admin",authenticateJWT, dashboardRouter);
+
 app.use('/cart',authenticateJWT, cartRouter);
 app.use("/payment",authenticateJWT, paymentRouter);
 app.use("/order",authenticateJWT, orderRoutes);
