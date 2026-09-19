@@ -18,11 +18,11 @@ const shopDetails = {
 
   address: "Near Civil Hospital, Ropar Road Kurali ",
   city: "Mohali",
-  pincode: "XXXXXX",
+  pincode: "140103.",
 
-  phone: "+91 XXXXX XXXXX",
+  phone: "+91 98726 40636",
   email: "contact@example.com",
-  whatsapp: "919876543210",
+  whatsapp: "+91 98726 40636",
   hours: "9:00 AM - 9:00 PM",
 
   mapsUrl:
