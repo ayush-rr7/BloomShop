@@ -32,6 +32,9 @@ import ManageOrders from "./pages/ManageOrders.jsx";
 // import ManageProducts from "./pages/ManageProducts.jsx";
 // import ManageOrders from "./pages/ManageOrders.jsx";
 
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+
 function App() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -77,6 +80,8 @@ function App() {
               path="/login"
               element={<Login />}
             />
+
+            <Route path="/contact" element={<Contact />} />
 
           </Route>
 
@@ -156,6 +161,7 @@ function App() {
               element={<MyAccount />}
             />
           </Route>
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
 

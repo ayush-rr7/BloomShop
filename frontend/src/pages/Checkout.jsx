@@ -14,6 +14,7 @@ function Checkout() {
   // ---------------------------------------------------------
   // BUY NOW ITEM
   // ---------------------------------------------------------
+
   const buyNowItem = location.state?.buyNowItem;
 
   const [cart, setCart] = useState({ items: [] });
@@ -27,7 +28,15 @@ function Checkout() {
     State: "",
     Pincode: "",
     PaymentMethod: "COD",
+    
   });
+
+  // ---------------------------------------------------------
+  // CUSTOMIZATION NOTE
+  // Works for both product and service orders
+  // ---------------------------------------------------------
+
+  const [customizationNote, setCustomizationNote] = useState("");
 
   // ---------------------------------------------------------
   // FETCH CART
@@ -51,7 +60,7 @@ function Checkout() {
 
   useEffect(() => {
     // BUY NOW
-    // Only selected product should appear.
+    // Only selected product/service should appear.
     if (buyNowItem) {
       setCart({
         items: [buyNowItem],
@@ -65,7 +74,6 @@ function Checkout() {
     // CART CHECKOUT
     // No buyNowItem means user came from Cart.
     fetchCart();
-
   }, [buyNowItem]);
 
   // ---------------------------------------------------------
@@ -89,10 +97,21 @@ function Checkout() {
 
   const totalAmount = cart.items.reduce(
     (total, item) =>
-      total +
-      getItemPrice(item) * item.quantity,
+      total + getItemPrice(item) * item.quantity,
     0
   );
+
+  // ---------------------------------------------------------
+  // ORDER TYPE
+  // ---------------------------------------------------------
+
+  const getOrderType = () => {
+    const firstItem = cart.items[0]?.productId;
+
+    return firstItem?.Type === "service"
+      ? "service"
+      : "product";
+  };
 
   // ---------------------------------------------------------
   // PLACE ORDER
@@ -107,8 +126,9 @@ function Checkout() {
     }
 
     try {
-      if (form.PaymentMethod === "COD") {
+      const orderType = getOrderType();
 
+      if (form.PaymentMethod === "COD") {
         const orderData = {
           Name: form.Name,
           Phone: form.Phone,
@@ -122,36 +142,29 @@ function Checkout() {
           items: cart.items,
 
           totalAmount,
+
+          orderType,
+
+          customizationNote,
         };
+        console.log("HI");
+        const response = await createOrder(orderData);
 
-        const response =
-          await createOrder(orderData);
+        console.log("COD Order:", response);
 
-        console.log(
-          "COD Order:",
-          response
-        );
-
-        alert(
-          "Order placed successfully!"
-        );
+        alert("Order placed successfully!");
 
         navigate("/orders");
 
         return;
       }
 
-      if (
-        form.PaymentMethod ===
-        "RAZORPAY"
-      ) {
+      if (form.PaymentMethod === "RAZORPAY") {
         await handleRazorpayPayment();
 
         return;
       }
-
     } catch (err) {
-
       console.log(err);
 
       alert(
@@ -166,15 +179,12 @@ function Checkout() {
   // ---------------------------------------------------------
 
   const handleRazorpayPayment = async () => {
-
     try {
-
       // 1. Create Razorpay order
 
-      const res =
-        await createRazorpayOrder({
-          amount: totalAmount,
-        });
+      const res = await createRazorpayOrder({
+        amount: totalAmount,
+      });
 
       const {
         id: razorpayOrderId,
@@ -185,10 +195,7 @@ function Checkout() {
       // 2. Razorpay options
 
       const options = {
-
-        key:
-          import.meta.env
-            .VITE_RAZORPAY_KEY_ID,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
         amount: amount,
 
@@ -197,21 +204,15 @@ function Checkout() {
         name: "Your Flower Shop",
 
         description:
-          "Event Arrangement Order",
+          "Flower Product / Service Order",
 
-        order_id:
-          razorpayOrderId,
+        order_id: razorpayOrderId,
 
-        handler: async function (
-          response
-        ) {
-
+        handler: async function (response) {
           try {
-
             // 3. Verify payment
 
             await verifyRazorpayPayment({
-
               razorpay_order_id:
                 response.razorpay_order_id,
 
@@ -226,6 +227,10 @@ function Checkout() {
               items: cart.items,
 
               totalAmount,
+
+              orderType: getOrderType(),
+
+              customizationNote,
             });
 
             alert(
@@ -233,9 +238,7 @@ function Checkout() {
             );
 
             navigate("/orders");
-
           } catch (err) {
-
             console.log(err);
 
             alert(
@@ -254,20 +257,15 @@ function Checkout() {
         },
       };
 
-      const razorpay =
-        new window.Razorpay(
-          options
-        );
+      const razorpay = new window.Razorpay(
+        options
+      );
 
       razorpay.open();
-
     } catch (err) {
-
       console.log(err);
 
-      alert(
-        "Unable to start payment"
-      );
+      alert("Unable to start payment");
     }
   };
 
@@ -276,14 +274,9 @@ function Checkout() {
   // ---------------------------------------------------------
 
   if (loading) {
-
     return (
       <div className="min-h-screen flex items-center justify-center">
-
-        <p>
-          Loading checkout...
-        </p>
-
+        <p>Loading checkout...</p>
       </div>
     );
   }
@@ -293,14 +286,10 @@ function Checkout() {
   // ---------------------------------------------------------
 
   if (cart.items.length === 0) {
-
     return (
       <div className="min-h-screen bg-pink-50 py-10 px-4">
-
         <div className="max-w-6xl mx-auto">
-
           <div className="bg-white rounded-2xl shadow p-10 text-center">
-
             <p className="text-gray-500 mb-5">
               Your cart is empty.
             </p>
@@ -313,11 +302,8 @@ function Checkout() {
             >
               Continue Shopping
             </button>
-
           </div>
-
         </div>
-
       </div>
     );
   }
@@ -328,7 +314,6 @@ function Checkout() {
 
   return (
     <div className="min-h-screen bg-pink-50 py-10 px-4">
-
       <div className="max-w-6xl mx-auto">
 
         <h1 className="text-3xl font-bold text-gray-800 mb-8">
@@ -347,16 +332,13 @@ function Checkout() {
               Delivery Details
             </h2>
 
-            <form
-              onSubmit={handlePlaceOrder}
-            >
+            <form onSubmit={handlePlaceOrder}>
 
               {/* NAME + PHONE */}
 
               <div className="grid md:grid-cols-2 gap-5">
 
                 <div>
-
                   <label className="block text-sm font-medium mb-2">
                     Full Name
                   </label>
@@ -370,11 +352,9 @@ function Checkout() {
                     className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-300"
                     placeholder="Enter your name"
                   />
-
                 </div>
 
                 <div>
-
                   <label className="block text-sm font-medium mb-2">
                     Phone Number
                   </label>
@@ -388,7 +368,6 @@ function Checkout() {
                     className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-300"
                     placeholder="Enter phone number"
                   />
-
                 </div>
 
               </div>
@@ -418,7 +397,6 @@ function Checkout() {
               <div className="grid md:grid-cols-3 gap-5 mt-5">
 
                 <div>
-
                   <label className="block text-sm font-medium mb-2">
                     City
                   </label>
@@ -432,11 +410,9 @@ function Checkout() {
                     className="w-full border rounded-xl px-4 py-3"
                     placeholder="City"
                   />
-
                 </div>
 
                 <div>
-
                   <label className="block text-sm font-medium mb-2">
                     State
                   </label>
@@ -450,11 +426,9 @@ function Checkout() {
                     className="w-full border rounded-xl px-4 py-3"
                     placeholder="State"
                   />
-
                 </div>
 
                 <div>
-
                   <label className="block text-sm font-medium mb-2">
                     Pincode
                   </label>
@@ -468,8 +442,40 @@ function Checkout() {
                     className="w-full border rounded-xl px-4 py-3"
                     placeholder="Pincode"
                   />
-
                 </div>
+
+              </div>
+
+              {/* =================================================
+                  CUSTOMIZATION / ADDITIONAL NOTE
+              ================================================= */}
+
+              <div className="mt-6">
+
+                <label className="block text-sm font-medium mb-2">
+                  Customization / Additional Note
+                </label>
+
+                <textarea
+                  value={customizationNote}
+                  onChange={(e) =>
+                    setCustomizationNote(
+                      e.target.value
+                    )
+                  }
+                  rows="4"
+                  className="w-full border rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-pink-300"
+                  placeholder={
+                    getOrderType() === "service"
+                      ? "Tell us about your service requirements, preferred design, colors, event details, location, etc."
+                      : "Any customization or special requirements for your order?"
+                  }
+                />
+
+                <p className="text-xs text-gray-500 mt-2">
+                  Optional. Add any special requirements
+                  or customization details for your order.
+                </p>
 
               </div>
 
@@ -495,7 +501,6 @@ function Checkout() {
                     />
 
                     <div>
-
                       <p className="font-medium">
                         Cash on Delivery
                       </p>
@@ -503,7 +508,6 @@ function Checkout() {
                       <p className="text-sm text-gray-500">
                         Pay when your order is delivered
                       </p>
-
                     </div>
 
                   </label>
@@ -522,7 +526,6 @@ function Checkout() {
                     />
 
                     <div>
-
                       <p className="font-medium">
                         Online Payment
                       </p>
@@ -530,7 +533,6 @@ function Checkout() {
                       <p className="text-sm text-gray-500">
                         Pay securely using UPI, Card, Net Banking
                       </p>
-
                     </div>
 
                   </label>
@@ -562,11 +564,9 @@ function Checkout() {
           <div className="bg-white rounded-2xl shadow p-7 h-fit">
 
             <h2 className="text-xl font-semibold mb-6">
-
               {buyNowItem
                 ? "Buy Now"
                 : "Order Summary"}
-
             </h2>
 
             <div className="space-y-5">
@@ -581,7 +581,6 @@ function Checkout() {
                     product?.Price || 0;
 
                   return (
-
                     <div
                       key={
                         product?._id ||
@@ -606,6 +605,10 @@ function Checkout() {
                           {product?.Name}
                         </h3>
 
+                        <p className="text-sm text-gray-500 capitalize">
+                          {product?.Type}
+                        </p>
+
                         <p className="text-sm text-gray-500">
                           Qty:{" "}
                           {item.quantity}
@@ -624,7 +627,6 @@ function Checkout() {
                       </div>
 
                     </div>
-
                   );
                 }
               )}
@@ -636,7 +638,6 @@ function Checkout() {
             <div className="border-t mt-6 pt-5 space-y-3">
 
               <div className="flex justify-between">
-
                 <span>
                   Subtotal
                 </span>
@@ -647,11 +648,9 @@ function Checkout() {
                     "en-IN"
                   )}
                 </span>
-
               </div>
 
               <div className="flex justify-between">
-
                 <span>
                   Delivery
                 </span>
@@ -659,7 +658,6 @@ function Checkout() {
                 <span>
                   Free
                 </span>
-
               </div>
 
               <div className="border-t pt-3 flex justify-between font-bold text-lg">
@@ -682,9 +680,7 @@ function Checkout() {
           </div>
 
         </div>
-
       </div>
-
     </div>
   );
 }

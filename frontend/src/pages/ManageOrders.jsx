@@ -61,14 +61,19 @@ function ManageOrders() {
     switch (status) {
       case "Delivered":
         return "bg-green-100 text-green-700";
+
       case "Cancelled":
         return "bg-red-100 text-red-700";
+
       case "Out for Delivery":
         return "bg-blue-100 text-blue-700";
+
       case "Preparing":
         return "bg-purple-100 text-purple-700";
+
       case "Confirmed":
         return "bg-indigo-100 text-indigo-700";
+
       default:
         return "bg-yellow-100 text-yellow-700";
     }
@@ -91,6 +96,7 @@ function ManageOrders() {
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
             Manage Orders
           </h1>
+
           <p className="text-sm text-gray-500 mt-1">
             View and manage customer orders
           </p>
@@ -200,16 +206,30 @@ function ManageOrders() {
                 {/* Products */}
                 <div className="px-4 sm:px-5 py-3.5 border-t border-gray-100">
 
-                  <h3 className="text-sm font-semibold text-gray-800 mb-2.5">
-                    Ordered Items
-                  </h3>
+                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2.5">
+
+                    <h3 className="text-sm font-semibold text-gray-800">
+                      Ordered Items
+                    </h3>
+
+                    {/* Order Type */}
+                    <span className="text-xs font-medium text-gray-500">
+                      Order Type:{" "}
+                      <span className="text-gray-800 capitalize">
+                        {order.orderType || "product"}
+                      </span>
+                    </span>
+
+                  </div>
 
                   <div className="space-y-2.5">
+
                     {order.items?.map((item, index) => (
                       <div
                         key={item._id || index}
                         className="flex items-center gap-3 bg-gray-50 rounded-xl p-2.5"
                       >
+
                         <img
                           src={
                             item.image ||
@@ -220,6 +240,7 @@ function ManageOrders() {
                         />
 
                         <div className="flex-1 min-w-0">
+
                           <h4 className="font-semibold text-sm text-gray-800 truncate">
                             {item.name}
                           </h4>
@@ -228,19 +249,31 @@ function ManageOrders() {
                             Qty: {item.quantity} · ₹{item.price}
                           </p>
 
-                          {item.customizationNote && (
-                            <p className="text-xs text-gray-500 mt-1 truncate">
-                              Note: {item.customizationNote}
-                            </p>
-                          )}
                         </div>
 
                         <p className="font-semibold text-sm text-gray-800">
                           ₹{item.price * item.quantity}
                         </p>
+
                       </div>
                     ))}
+
                   </div>
+
+                  {/* Customization / Additional Note */}
+                  {order.customizationNote && (
+                    <div className="mt-4 bg-pink-50 border border-pink-100 rounded-xl p-3.5">
+
+                      <p className="text-xs font-semibold text-pink-700 mb-1">
+                        Customization / Additional Note
+                      </p>
+
+                      <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+                        {order.customizationNote}
+                      </p>
+
+                    </div>
+                  )}
 
                 </div>
 
@@ -279,6 +312,7 @@ function ManageOrders() {
 
                   {/* Update Status */}
                   <div className="flex items-center gap-2">
+
                     <span className="text-xs text-gray-500 hidden sm:block">
                       Update status
                     </span>
@@ -303,6 +337,7 @@ function ManageOrders() {
                       <option value="Delivered">Delivered</option>
                       <option value="Cancelled">Cancelled</option>
                     </select>
+
                   </div>
 
                 </div>
@@ -318,4 +353,3 @@ function ManageOrders() {
 }
 
 export default ManageOrders;
-

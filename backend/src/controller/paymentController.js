@@ -53,6 +53,8 @@ export const verifyRazorpayPayment = async (req, res) => {
       State,
       Pincode,
       totalAmount,
+       orderType,
+  customizationNote,
     } = req.body;
 
 
@@ -93,8 +95,9 @@ export const verifyRazorpayPayment = async (req, res) => {
     const order = new Order({
       user: userId,
 
+      orderType: orderType || "product",
       items: orderItems,
-
+      customizationNote: customizationNote || "",
       shippingAddress: {
         name: Name,
         phone: Phone,

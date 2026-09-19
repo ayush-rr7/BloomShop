@@ -7,7 +7,7 @@
 // };
 
 // // const BASE_URL = 'http://localhost:3002';
-// const BASE_URL = 'https://BloomShop.vercel.app/';
+// const BASE_URL = 'https://FloralPallete.vercel.app/';
 
 // export default function () {
 

@@ -15,6 +15,8 @@ const createOrder = async (req, res) => {
       State,
       Pincode,
       paymentMethod,
+      orderType,
+      customizationNote,
     } = req.body;
 
     console.log("Order Items:", items);
@@ -31,19 +33,21 @@ const createOrder = async (req, res) => {
       image: item.productId.Images?.[0],
       price: item.productId.Price,
       quantity: item.quantity,
-      customizationNote: item.customizationNote || "",
     }));
 
     const totalAmount = orderItems.reduce(
-      (total, item) =>
-        total + item.price * item.quantity,
+      (total, item) => total + item.price * item.quantity,
       0
     );
 
     const order = new Order({
       user: userId,
 
+      orderType: orderType || "product",
+
       items: orderItems,
+
+      customizationNote: customizationNote || "",
 
       shippingAddress: {
         name: Name,
@@ -80,6 +84,8 @@ const createOrder = async (req, res) => {
     });
   }
 };
+
+export { createOrder };
 // const createOrder = async (req, res) => {
 //   try {
 //     const userId = req.userId;

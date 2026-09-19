@@ -14,6 +14,7 @@ import {
   addFavourite,
   removeFavourite,
 } from "../api/favouriteService.js";
+import { addToCart } from "../api/cartService";
 
 import { SkeletonCard } from "../component/skeleton.jsx";
 import { optimizeImage } from "../utils/ImgOptimizer.js";
@@ -23,6 +24,7 @@ function ProductList() {
 
   const [products, setProducts] = useState([]);
   const [favouriteIds, setFavouriteIds] = useState(new Set());
+const [cartLoading, setCartLoading] = useState(null);
 
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -142,32 +144,27 @@ function ProductList() {
   // =========================================================
 
   const handleAddToCart = async (product) => {
-    // Keep your existing cart logic here if you already have one.
-    console.log("Add to cart:", product);
-  };
+  if (!product || !product.Available || cartLoading) {
+    return;
+  }
 
-  // =========================================================
-  // OWNER - DELETE PRODUCT
-  // =========================================================
+  try {
+    setCartLoading(product._id);
 
-  const handleDelete = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this product?"
+    await addToCart(product._id, 1);
+
+    alert("Added to cart successfully");
+  } catch (err) {
+    console.log("Cart error:", err);
+
+    alert(
+      err.response?.data?.message ||
+        "Unable to add product to cart"
     );
-
-    if (!confirmDelete) return;
-
-    try {
-      await deleteProduct(id);
-
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product._id !== id)
-      );
-    } catch (err) {
-      console.log("Delete product error:", err);
-      alert("Failed to delete product");
-    }
-  };
+  } finally {
+    setCartLoading(null);
+  }
+};
 
   // =========================================================
   // OWNER - UPDATE AVAILABILITY
@@ -543,20 +540,25 @@ function ProductList() {
 
     <>
       {product.Type === "product" ? (
-        <button
-          type="button"
-          onClick={() => handleAddToCart(product)}
-          disabled={!product.Available}
-          className={`w-full py-2 rounded-lg transition text-sm sm:text-base ${
-            product.Available
-              ? "bg-pink-600 text-white hover:bg-pink-700"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-          }`}
-        >
-          {product.Available
-            ? "Add to Cart"
-            : "Currently Unavailable"}
-        </button>
+        
+         <button
+  type="button"
+  onClick={() => handleAddToCart(product)}
+  disabled={
+    !product.Available || cartLoading === product._id
+  }
+  className={`w-full py-2 rounded-lg transition text-sm sm:text-base ${
+    product.Available && cartLoading !== product._id
+      ? "bg-pink-600 text-white hover:bg-pink-700"
+      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+  }`}
+>
+  {cartLoading === product._id
+    ? "Adding..."
+    : product.Available
+      ? "Add to Cart"
+      : "Currently Unavailable"}
+</button>
       ) : (
         <Link
           to={`/product/${product._id}`}

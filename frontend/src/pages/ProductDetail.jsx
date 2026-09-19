@@ -699,27 +699,45 @@ const handleBuyNow = () => {
 
               ) : (
 
-                <div className="space-y-3">
+                // <div className="space-y-3">
 
-                  <p className="text-sm text-gray-500">
-                    This is a service. Contact the shop
-                    to discuss date, location and
-                    customization requirements.
-                  </p>
+                //   <p className="text-sm text-gray-500">
+                //     This is a service. Contact the shop
+                //     to discuss date, location and
+                //     customization requirements.
+                //   </p>
 
-                  <button
-                    type="button"
-                    onClick={() =>
-                      navigate(
-                        `/service-enquiry/${product._id}`
-                      )
-                    }
-                    className="w-full sm:w-auto bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 rounded-xl shadow-md transition font-medium"
-                  >
-                    💬 Enquire / Customize
-                  </button>
+                //   <button
+                //     type="button"
+                //     onClick={() =>
+                //       navigate(
+                //         `/service-enquiry/${product._id}`
+                //       )
+                //     }
+                //     className="w-full sm:w-auto bg-purple-500 hover:bg-purple-600 text-white px-8 py-3 rounded-xl shadow-md transition font-medium"
+                //   >
+                //     💬 Enquire / Customize
+                //   </button>
 
-                </div>
+                // </div>
+                
+            <div className="space-y-3">
+
+                <p className="text-sm text-gray-500">
+                  Select this service and provide your
+                  customization requirements at checkout.
+                </p>
+
+                <button
+                  type="button"
+                  disabled={!product.Available || cartLoading}
+                  onClick={handleBuyNow}
+                  className="w-full sm:w-auto bg-purple-500 hover:bg-purple-600 disabled:bg-gray-400 text-white px-8 py-3 rounded-xl shadow-md transition font-medium"
+                >
+                  🛍️ Continue to Checkout
+                </button>
+
+              </div>
 
               )}
 

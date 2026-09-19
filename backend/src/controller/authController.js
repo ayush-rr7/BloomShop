@@ -25,7 +25,7 @@ const sendOtp = async (req, res) => {
     await newOtp.save();
 console.log("processing otp send");
     //  EMAIL TEMPLATE
-    const subject = "Your OTP for BloomShop";
+    const subject = "Your OTP for FloralPallete";
     const html = `
       <h2>Email Verification</h2>
       <p>Your OTP is:</p>

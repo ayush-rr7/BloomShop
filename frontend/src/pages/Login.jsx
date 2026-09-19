@@ -143,7 +143,7 @@ function Login() {
 
         {/* Signup */}
         <p className="text-center text-sm text-gray-500">
-          New to BloomShop?{" "}
+          New to FloralPallete?{" "}
           <Link
             to="/signup"
             className="text-pink-600 font-semibold hover:text-pink-700 hover:underline"

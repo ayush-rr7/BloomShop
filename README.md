@@ -1,6 +1,6 @@
-# 🌸 BloomShop
+# 🌸 FloralPallete
 
-**BloomShop** is a modern full-stack flower business platform built with the **MERN stack**. It provides a complete digital experience for customers to explore flower products, manage their cart, place orders, and make payments, while also providing a dedicated workflow for shop owners to manage their products and orders.
+**FloralPallete** is a modern full-stack flower business platform built with the **MERN stack**. It provides a complete digital experience for customers to explore flower products, manage their cart, place orders, and make payments, while also providing a dedicated workflow for shop owners to manage their products and orders.
 
 The project combines **e-commerce functionality with flower-shop business management**, creating a complete platform for online flower ordering and shop operations.
 
@@ -136,7 +136,7 @@ The project combines **e-commerce functionality with flower-shop business manage
 
 # 🛒 Core Shopping Workflow
 
-BloomShop implements a complete online ordering workflow:
+FloralPallete implements a complete online ordering workflow:
 
 ```text
         Browse Products
@@ -228,7 +228,7 @@ Complete Delivery
 
 # 💳 Payment Integration
 
-BloomShop integrates **Razorpay** to support online payments.
+FloralPallete integrates **Razorpay** to support online payments.
 
 The payment workflow includes:
 
@@ -285,7 +285,7 @@ Orders
 # 📁 Project Structure
 
 ```text
-BloomShop/
+FloralPallete/
 │
 ├── backend/
 │   ├── controllers/
@@ -382,7 +382,7 @@ BloomShop/
 
 # 🔐 Security
 
-BloomShop follows common web application security practices:
+FloralPallete follows common web application security practices:
 
 * Password hashing with bcrypt
 * JWT-based authentication
@@ -447,7 +447,7 @@ Make sure you have:
 
 ```bash
 git clone <your-repository-url>
-cd BloomShop
+cd FloralPallete
 ```
 
 ---
@@ -492,7 +492,7 @@ http://localhost:5173
 
 # ☁️ Deployment
 
-BloomShop can be deployed using separate services for the frontend, backend, database, image storage, and payment processing.
+FloralPallete can be deployed using separate services for the frontend, backend, database, image storage, and payment processing.
 
 | Service       | Purpose                   |
 | ------------- | ------------------------- |
@@ -542,7 +542,7 @@ Planned improvements include:
 
 🟢 **Active Development**
 
-BloomShop currently focuses on building a complete digital workflow for a flower business, covering both sides of the platform:
+FloralPallete currently focuses on building a complete digital workflow for a flower business, covering both sides of the platform:
 
 ```text
 Customer Side

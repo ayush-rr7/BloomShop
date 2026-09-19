@@ -25,7 +25,7 @@ export  const sendEmail = async ({ to, subject, html }) => {
 
     // Mail options
     const mailOptions = {
-      from: `"BloomShop" <${user}>`,
+      from: `"FloralPallete" <${user}>`,
       to,
       subject,
       html,
